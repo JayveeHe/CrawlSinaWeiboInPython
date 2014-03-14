@@ -40,16 +40,12 @@ def crawler(url, name, page):
 #         req.close()
         pass
     soup = BeautifulSoup(html)
-#     html = soup.prettify('utf-8')
     result = soup.findAll('div', {'class':'c'})  # 搜索所有的单个微博信息
-#     print "查询结果：\n"
     for i in xrange(len(result) - 2):  # 遍历本页所有微博,除了最后两个（它们是页面底框）
         text = '';  # 待写入的字符串
-#         print (page - 1) * 50 + i
         text = text + str((page - 1) * 50 + i) + ':\n'#加入序号
         test = result[i]
         isPost = len(test.findAll('span', 'cmt'))  # 若有cmt标签存在，则为转发微博，否则为原创微博
-#         print '是否为转发微博' + str(isPost) + ''
         if isPost == 0:  # 0则为原创微博，只有ctt标签
             temp = test.findAll('span')[0].text + '\t' + test.findAll('span')[1].text
             text = text + str(temp) + '\n'
@@ -71,7 +67,6 @@ def crawler(url, name, page):
                 temp = (str(test.findAll('span', limit=2)[0].text) + str(test.findAll('span', limit=2)[1].text)).replace('\n', '').replace(' ', '')
                 text = text + str(temp) + '\n'
                 # 需要判断是否有转发图片
-#         print test.findAll('span')
                 if len(test.findAll('div')) < 3:  # 无图片
                     tt = test.findAll('div')[1].text.replace('\n', '').replace(' ', '')
                 else:  # 有图片
@@ -88,8 +83,3 @@ def crawler(url, name, page):
         fp.write(text)
         fp.close()
     print '第'+str(page)+ '页读取完毕'
-    
-
-if __name__ == '__main__':
-#     crawler('http://weibo.cn/kaifulee', 'kaifu.txt')
-    pass
