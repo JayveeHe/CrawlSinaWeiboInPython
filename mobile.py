@@ -34,7 +34,7 @@ HEADER = {
 def crawl_SinaWeibo():
     start_time = time.time()
     print '任务开始'
-    url = 'http://weibo.cn/1692530220/profile' #需要爬的某人主页地址
+    url = 'http://weibo.cn/XXXXXXXXXXXXXX' #需要爬的某人主页地址
     req = urllib2.Request(url, headers=HEADER)
     try:
         text = urllib2.urlopen(req).read()
@@ -47,14 +47,12 @@ def crawl_SinaWeibo():
     print title.text
     name = title.text  # 所读取微博的主人ID
     pagere = ((re.compile('name="mp".* value="\d*"')).search(html)).group(0)
-#     print pagere
     pagecount = (re.compile('\d+').search(pagere)).group(0)  # 读出微博总页数
     print "微博总页数：" + pagecount
     for i in xrange(int(pagecount)):
-#     for i in xrange(37,pagecount):
         nUrl = url+'?page='+str(i+1)   #组装新网页地址
         print '正在读取第'+str(i+1)+'/'+str(pagecount)+'页……'
-        try:#允许3次超时重连
+        try:#允许3次超时重连    此处比较不够优雅，以后再弄
             crawler(nUrl,name,i+1)
         except Exception,e:
             print 'MOBILE1:',e
